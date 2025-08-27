@@ -5,7 +5,9 @@
 
 A mystical cosmic fortune-telling website designed to provide a magical and interactive user experience. Featuring a deep space theme with beautiful starry gradients, golden accents, and elegant glassmorphism effects. This project was created as part of a recruitment challenge and prototyped using the AI-powered development tool, Lovable.
 
-![Starlit Oracle Preview](https://via.placeholder.com/800x400/0D1117/FFFFFF/?text=Starlit+Oracle+Screenshot)
+![Starlit Oracle Preview](https://github.com/JainDikshaa/cosmic-fortune/blob/main/starlit.png?raw=true)
+![Starlit Oracle Preview](https://github.com/JainDikshaa/cosmic-fortune/blob/main/starlit2.png?raw=true)
+![Starlit Oracle Preview](https://github.com/JainDikshaa/cosmic-fortune/blob/main/starlit3.png?raw=true)
 
 
 ## 🚀 Live Demo
