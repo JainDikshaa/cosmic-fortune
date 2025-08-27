@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import CosmicCard from '@/components/CosmicCard';
 import { Sparkles, Mail, Lock, Star, Eye, EyeOff } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,11 +13,27 @@ const Login = () => {
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const { signIn, user } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login - would integrate with Supabase auth
-    console.log('Login attempt:', formData);
+    setIsLoading(true);
+    
+    const { error } = await signIn(formData.email, formData.password);
+    
+    if (!error) {
+      navigate('/dashboard');
+    }
+    
+    setIsLoading(false);
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -102,9 +119,9 @@ const Login = () => {
             </div>
 
             {/* Submit Button */}
-            <Button type="submit" variant="cosmic" className="w-full">
+            <Button type="submit" variant="cosmic" className="w-full" disabled={isLoading}>
               <Star className="mr-2 h-4 w-4" />
-              Sign Into the Cosmos
+              {isLoading ? 'Signing In...' : 'Sign Into the Cosmos'}
             </Button>
           </form>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import CosmicCard from '@/components/CosmicCard';
 import { 
@@ -10,11 +10,99 @@ import {
   Zap, 
   Calendar,
   Gift,
-  Diamond
+  Diamond,
+  Loader2
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Billing = () => {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
+  const [isLoading, setIsLoading] = useState<string | null>(null);
+  const { user, session, subscriptionStatus, checkSubscription } = useAuth();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (user && session) {
+      checkSubscription();
+    }
+  }, [user, session, checkSubscription]);
+
+  const handlePlanSelect = async (planId: string, planName: string) => {
+    if (!user || !session) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to subscribe to a plan.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(planId);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { planId },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank');
+      }
+    } catch (error: any) {
+      console.error('Error creating checkout:', error);
+      toast({
+        title: "Payment Error",
+        description: error.message || "Failed to initiate payment. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(null);
+    }
+  };
+
+  const handleManageSubscription = async () => {
+    if (!user || !session) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to manage your subscription.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading('manage');
+
+    try {
+      const { data, error } = await supabase.functions.invoke('customer-portal', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        // Open Stripe customer portal in a new tab
+        window.open(data.url, '_blank');
+      }
+    } catch (error: any) {
+      console.error('Error opening customer portal:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to open customer portal. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(null);
+    }
+  };
 
   const plans = [
     {
@@ -124,7 +212,7 @@ const Billing = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div id="pricing-cards" className="grid md:grid-cols-3 gap-8 mb-12">
           {plans.map((plan) => {
             const savings = getYearlySavings(plan.price.monthly, plan.price.yearly);
             
@@ -174,8 +262,20 @@ const Billing = () => {
                   <Button 
                     variant={plan.popular ? "cosmic" : "starlight"} 
                     className="w-full"
+                    onClick={() => handlePlanSelect(plan.id, plan.name)}
+                    disabled={isLoading === plan.id || (subscriptionStatus.subscribed && subscriptionStatus.subscription_tier === plan.name)}
                   >
-                    {plan.popular ? (
+                    {isLoading === plan.id ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Processing...
+                      </>
+                    ) : subscriptionStatus.subscribed && subscriptionStatus.subscription_tier === plan.name ? (
+                      <>
+                        <Check className="mr-2 h-4 w-4" />
+                        Current Plan
+                      </>
+                    ) : plan.popular ? (
                       <>
                         <Zap className="mr-2 h-4 w-4" />
                         Start Cosmic Journey
@@ -201,19 +301,46 @@ const Billing = () => {
                 <Crown className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold">Current Plan: Free Seeker</h3>
-                <p className="text-muted-foreground">3 consultations remaining this month</p>
+                <h3 className="text-lg font-semibold">
+                  Current Plan: {subscriptionStatus.subscribed ? subscriptionStatus.subscription_tier : 'Free Seeker'}
+                </h3>
+                <p className="text-muted-foreground">
+                  {subscriptionStatus.subscribed 
+                    ? `Active until ${subscriptionStatus.subscription_end ? new Date(subscriptionStatus.subscription_end).toLocaleDateString() : 'Unknown'}`
+                    : '3 consultations remaining this month'
+                  }
+                </p>
               </div>
             </div>
             <div className="flex gap-4">
-              <Button variant="starlight">
+              <Button variant="starlight" onClick={checkSubscription}>
                 <Calendar className="mr-2 h-4 w-4" />
-                View Usage
+                Refresh Status
               </Button>
-              <Button variant="cosmic">
-                <Gift className="mr-2 h-4 w-4" />
-                Upgrade Now
-              </Button>
+              {subscriptionStatus.subscribed ? (
+                <Button 
+                  variant="cosmic" 
+                  onClick={handleManageSubscription}
+                  disabled={isLoading === 'manage'}
+                >
+                  {isLoading === 'manage' ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Loading...
+                    </>
+                  ) : (
+                    <>
+                      <Gift className="mr-2 h-4 w-4" />
+                      Manage Subscription
+                    </>
+                  )}
+                </Button>
+              ) : (
+                <Button variant="cosmic" onClick={() => document.getElementById('pricing-cards')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <Gift className="mr-2 h-4 w-4" />
+                  Upgrade Now
+                </Button>
+              )}
             </div>
           </div>
         </CosmicCard>
