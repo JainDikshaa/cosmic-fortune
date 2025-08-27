@@ -1,73 +1,72 @@
-# Welcome to your Lovable project
+# Starlit Oracle ✨
 
-## Project info
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Built with Lovable](https://img.shields.io/badge/Built%20with-Lovable.app-ff69b4)](https://lovable.app)
 
-**URL**: https://lovable.dev/projects/5caeb43c-4829-4174-8059-0c8afbd925fd
+A mystical cosmic fortune-telling website designed to provide a magical and interactive user experience. Featuring a deep space theme with beautiful starry gradients, golden accents, and elegant glassmorphism effects. This project was created as part of a recruitment challenge and prototyped using the AI-powered development tool, Lovable.
 
-## How can I edit this code?
+![Starlit Oracle Preview](https://via.placeholder.com/800x400/0D1117/FFFFFF/?text=Starlit+Oracle+Screenshot)
 
-There are several ways of editing your application.
 
-**Use Lovable**
+## 🚀 Live Demo
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5caeb43c-4829-4174-8059-0c8afbd925fd) and start prompting.
+Experience the magic live: [https://cosmic-fortune.lovable.app/](https://cosmic-fortune.lovable.app/)
 
-Changes made via Lovable will be committed automatically to this repo.
+## ✨ Key Features
 
-**Use your preferred IDE**
+1.  **🌌 Cosmic Landing Page**: A hero section that sets a mystical, deep space theme upon first arrival.
+2.  **🧭 Elegant Navigation System**: A responsive glassmorphism top navigation bar for seamless user movement between all pages.
+3.  **❓ Ask Question Interface**: A uniquely styled page where users can ask the oracle a question.
+4.  **📜 Fortune History**: A timeline layout to display past readings.
+5.  **💳 Billing Page**: A page for users to manage their subscription plans.
+6.  **⭐ Cosmic Animations**: Animated starry backgrounds and floating glassmorphic cards with captivating hover effects.
+7.  **📱 Mobile-First Design**: Responsive design that looks stunning on any device.
+8.  **💳 Payment Integration Ready**: This feature is currently implemented but not functional, as per the project requirements. It demonstrates the groundwork for future e-commerce capabilities.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🛠️ Technologies Used
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **Frameworks**: React, Vite
+- **Styling**: Tailwind CSS, shadcn-ui
+- **Language**: TypeScript
+- **AI Tooling**: [Lovable.app](https://lovable.app)
 
-Follow these steps:
+## 📦 How to Run the Project Locally
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+To run this project on your local machine, follow these steps:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/JainDikshaa/starlit-oracle.git
+    ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+2.  **Navigate to the project directory**:
+    ```bash
+    cd starlit-oracle
+    ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+3.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-**Edit a file directly in GitHub**
+4.  **Start the development server**:
+    ```bash
+    npm run dev
+    ```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+5.  **Open your browser** and visit `http://localhost:5173` to view the application.
 
-**Use GitHub Codespaces**
+## 🙏 Acknowledgements
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+A big thank you to [Lovable.app](https://lovable.app) for providing an incredible platform to quickly prototype and build this application.
 
-## What technologies are used for this project?
+## 👩‍💻 Author
 
-This project is built with:
+**Diksha Jain**
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- GitHub: [https://github.com/JainDikshaa](https://github.com/JainDikshaa)
+- Email: dikshajain536@gmail.com
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/5caeb43c-4829-4174-8059-0c8afbd925fd) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+⭐ **Star this repo if you found it interesting!**
